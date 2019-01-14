@@ -1,17 +1,20 @@
 {
   "name": "@felfel/logger",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Logger",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
     "test": "jest --config jestconfig.json",
+    "ts:compile": "tsc --noEmit -p . --pretty",
     "build": "tsc",
     "format": "prettier --single-quote --write \"src/**/*.ts\" \"src/**/*.js\"",
-    "tslint": "tslint -p tsconfig.json",
+    "tslint:dev": "tslint -p . -c tslint.dev.json",
+    "tslint:prod": "tslint -p .",
+    "tslint:fix": "tslint --fix -p .",
     "prepare": "npm run build",
-    "prepublishOnly": "npm test && npm run tslint",
-    "preversion": "npm run tslint",
+    "prepublishOnly": "npm test && npm run tslint:prod",
+    "preversion": "npm run tslint:prod",
     "version": "npm run format && git add -A src"
   },
   "repository": {
@@ -37,5 +40,8 @@
   },
   "files": [
     "lib/**/*"
-  ]
+  ],
+  "dependencies": {
+    "humps": "^2.0.1"
+  }
 }

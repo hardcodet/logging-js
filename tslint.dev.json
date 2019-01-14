@@ -1,9 +1,5 @@
 {
-  "extends": [
-    "tslint:recommended",
-    "tslint-config-airbnb",
-    "tslint-config-prettier"
-  ],
+  "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
   "rules": {
     "max-classes-per-file": false,
     "object-literal-sort-keys": false,
@@ -15,6 +11,8 @@
     "jsx-no-bind": false,
     "jsx-no-lambda": false,
     "variable-name": [true, "allow-pascal-case"],
-    "interface-name": false
+    "interface-name": false,
+    // extre rules turned off for development
+    "no-console": false
   }
 }
