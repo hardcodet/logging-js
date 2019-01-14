@@ -1,5 +1,5 @@
 {
-  "name": "logger",
+  "name": "@felfel/logger",
   "version": "1.0.0",
   "description": "Logger",
   "main": "lib/index.js",
@@ -10,8 +10,8 @@
     "format": "prettier --single-quote --write \"src/**/*.ts\" \"src/**/*.js\"",
     "tslint": "tslint -p tsconfig.json",
     "prepare": "npm run build",
-    "prepublishOnly": "npm test && npm run lint",
-    "preversion": "npm run lint",
+    "prepublishOnly": "npm test && npm run tslint",
+    "preversion": "npm run tslint",
     "version": "npm run format && git add -A src"
   },
   "repository": {

@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="17925897-f877-4577-9fab-8ce6fab2b6ee" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/Logger.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Sinks.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/__tests__/index.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.ts" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -28,7 +33,7 @@
           <entry key="md" value="1" />
           <entry key="npmignore" value="1" />
           <entry key="prettierrc" value="1" />
-          <entry key="ts" value="2" />
+          <entry key="ts" value="7" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
@@ -37,18 +42,20 @@
           <entry key="JavaScript" value="1" />
           <entry key="Markdown" value="1" />
           <entry key="PLAIN_TEXT" value="1" />
-          <entry key="TypeScript" value="2" />
+          <entry key="TypeScript" value="7" />
           <entry key="tsconfig" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="json" value="100" />
+          <entry key="json" value="112" />
+          <entry key="ts" value="206" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JSON" value="100" />
+          <entry key="JSON" value="112" />
+          <entry key="TypeScript" value="206" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts">
@@ -59,77 +66,115 @@
     </session>
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tsconfig.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret selection-end-line="20" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/package.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="14" column="49" selection-start-line="14" selection-start-column="49" selection-end-line="14" selection-end-column="49" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/index.d.ts">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/jestconfig.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" selection-start-line="7" selection-end-line="7" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.npmignore">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" selection-start-line="5" selection-end-line="5" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/index.ts">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/index.js">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tslint.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" selection-start-line="7" selection-end-line="7" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.prettierrc">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" selection-start-line="4" selection-end-line="4" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <splitter split-orientation="horizontal" split-proportion="0.5">
+      <split-first>
+        <leaf>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/tsconfig.json">
+              <provider selected="true" editor-type-id="text-editor">
+                <state>
+                  <caret selection-end-line="20" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/package.json">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="285">
+                  <caret line="19" column="4" lean-forward="true" selection-start-line="19" selection-start-column="4" selection-end-line="19" selection-end-column="4" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/Logger.ts">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="65">
+                  <caret line="153" column="3" lean-forward="true" selection-start-line="153" selection-start-column="3" selection-end-line="153" selection-end-column="3" />
+                  <folding>
+                    <element signature="e#0#51#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/Sinks.ts">
+              <provider selected="true" editor-type-id="text-editor" />
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/__tests__/index.test.ts">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="15">
+                  <caret line="1" column="31" selection-start-line="1" selection-start-column="31" selection-end-line="1" selection-end-column="31" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/lib/index.d.ts">
+              <provider selected="true" editor-type-id="text-editor" />
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/jestconfig.json">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="105">
+                  <caret line="7" selection-start-line="7" selection-end-line="7" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/.npmignore">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="75">
+                  <caret line="5" selection-start-line="5" selection-end-line="5" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/tslint.json">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="105">
+                  <caret line="7" selection-start-line="7" selection-end-line="7" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/.prettierrc">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="60">
+                  <caret line="4" selection-start-line="4" selection-end-line="4" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/index.ts">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="30">
+                  <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>lint</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -142,7 +187,9 @@
         <option value="$PROJECT_DIR$/.prettierrc" />
         <option value="$PROJECT_DIR$/.npmignore" />
         <option value="$PROJECT_DIR$/jestconfig.json" />
+        <option value="$PROJECT_DIR$/src/__tests__/index.test.ts" />
         <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/src/index.ts" />
       </list>
     </option>
   </component>
@@ -162,11 +209,11 @@
       <path value="$PROJECT_DIR$/package.json" />
     </packageJsonPaths>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="-608" />
-    <option name="y" value="-1269" />
-    <option name="width" value="1438" />
-    <option name="height" value="1266" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="1680" />
+    <option name="y" value="23" />
+    <option name="width" value="2560" />
+    <option name="height" value="1417" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -193,6 +240,12 @@
               <item name="logger" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="logger" type="b2602c69:ProjectViewProjectNode" />
+              <item name="logger" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="__tests__" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -206,6 +259,11 @@
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="prettierjs.PrettierConfiguration.Package" value="$PROJECT_DIR$/node_modules/prettier" />
     <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -234,15 +292,15 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1306000" />
+    <option name="totallyTimeSpent" value="3448000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-608" y="-1269" width="1438" height="1266" extended-state="0" />
+    <frame x="1680" y="23" width="2560" height="1417" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="npm" side_tool="true" />
       <window_info id="Favorites" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24982357" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13942496" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="TypeScript" />
       <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
@@ -275,9 +333,6 @@
           <second_editor />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/index.ts">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/index.js">
       <provider selected="true" editor-type-id="text-editor" />
@@ -320,10 +375,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/__tests__/index.test.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="31" selection-start-line="1" selection-start-column="31" selection-end-line="1" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="49" selection-start-line="14" selection-start-column="49" selection-end-line="14" selection-end-column="49" />
+        <state relative-caret-position="285">
+          <caret line="19" column="4" lean-forward="true" selection-start-line="19" selection-start-column="4" selection-end-line="19" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Logger.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="65">
+          <caret line="153" column="3" lean-forward="true" selection-start-line="153" selection-start-column="3" selection-end-line="153" selection-end-column="3" />
+          <folding>
+            <element signature="e#0#51#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Sinks.ts">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/index.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
         </state>
       </provider>
     </entry>
