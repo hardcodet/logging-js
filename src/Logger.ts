@@ -72,6 +72,10 @@ interface IPayload {
   data: any;
 }
 
+function isInstanceOfIPayload(object: any): object is IPayload {
+  return 'name' in object && typeof object.name === 'string' && 'data' in object;
+}
+
 /**
  * Basic logging API. A logger instance is created through the
  * LoggingStore.
@@ -81,27 +85,48 @@ export interface ILogger {
   debug(message: string): void;
   debug(message: string, exception: Error): void;
   debug(message: string, payload: IPayload): void;
+  debug(message: string, context: string): void;
   debug(message: string, exception: Error, payload: IPayload): void;
+  debug(message: string, exception: Error, context: string): void;
+  debug(message: string, payload: IPayload, context: string): void;
+  debug(message: string, exception: Error, payload: IPayload, context: string): void;
 
   info(message: string): void;
   info(message: string, exception: Error): void;
   info(message: string, payload: IPayload): void;
+  info(message: string, context: string): void;
   info(message: string, exception: Error, payload: IPayload): void;
+  info(message: string, exception: Error, context: string): void;
+  info(message: string, payload: IPayload, context: string): void;
+  info(message: string, exception: Error, payload: IPayload, context: string): void;
 
   warn(message: string): void;
   warn(message: string, exception: Error): void;
   warn(message: string, payload: IPayload): void;
+  warn(message: string, context: string): void;
   warn(message: string, exception: Error, payload: IPayload): void;
+  warn(message: string, exception: Error, context: string): void;
+  warn(message: string, payload: IPayload, context: string): void;
+
+  warn(message: string, exception: Error, payload: IPayload, context: string): void;
 
   error(message: string): void;
   error(message: string, exception: Error): void;
   error(message: string, payload: IPayload): void;
+  error(message: string, context: string): void;
   error(message: string, exception: Error, payload: IPayload): void;
+  error(message: string, exception: Error, context: string): void;
+  error(message: string, payload: IPayload, context: string): void;
+  error(message: string, exception: Error, payload: IPayload, context: string): void;
 
   fatal(message: string): void;
   fatal(message: string, exception: Error): void;
   fatal(message: string, payload: IPayload): void;
+  fatal(message: string, context: string): void;
   fatal(message: string, exception: Error, payload: IPayload): void;
+  fatal(message: string, exception: Error, context: string): void;
+  fatal(message: string, payload: IPayload, context: string): void;
+  fatal(message: string, exception: Error, payload: IPayload, context: string): void;
 }
 
 export class Logger implements ILogger {
@@ -109,63 +134,96 @@ export class Logger implements ILogger {
     private sinks: ILogSink[],
     private appName: string,
     private environment: string,
-    private context: string
+    private defaultContext: string
   ) {}
 
   /* tslint:disable unified-signatures */
   public debug(message: string);
   public debug(message: string, exception: Error);
   public debug(message: string, payload: IPayload);
+  public debug(message: string, context: string);
   public debug(message: string, exception: Error, payload: IPayload);
-  public debug(message: string, e?: Error | IPayload, pl?: IPayload) {
-    this.log('Debug', message, e, pl);
+  public debug(message: string, e?: Error | IPayload | string, pl?: IPayload, context?: string) {
+    this.log('Debug', message, e, pl, context);
   }
 
   public info(message: string);
   public info(message: string, exception: Error);
   public info(message: string, payload: IPayload);
   public info(message: string, exception: Error, payload: IPayload);
-  public info(message: string, e?: Error | IPayload, pl?: IPayload) {
-    this.log('Info', message, e, pl);
+  public info(message: string, context: string);
+  public info(message: string, e?: Error | IPayload | string, pl?: IPayload, context?: string) {
+    this.log('Info', message, e, pl, context);
   }
 
   public warn(message: string);
   public warn(message: string, exception: Error);
   public warn(message: string, payload: IPayload);
   public warn(message: string, exception: Error, payload: IPayload);
-  public warn(message: string, e?: Error | IPayload, pl?: IPayload) {
-    this.log('Warning', message, e, pl);
+  public warn(message: string, context: string);
+  public warn(message: string, e?: Error | IPayload | string, pl?: IPayload, context?: string) {
+    this.log('Warn', message, e, pl, context);
   }
 
   public error(message: string);
   public error(message: string, exception: Error);
   public error(message: string, payload: IPayload);
   public error(message: string, exception: Error, payload: IPayload);
-  public error(message: string, e?: Error | IPayload, pl?: IPayload) {
-    this.log('Error', message, e, pl);
+  public error(message: string, context: string);
+  public error(message: string, e?: Error | IPayload | string, pl?: IPayload, context?: string) {
+    this.log('Error', message, e, pl, context);
   }
 
   public fatal(message: string);
   public fatal(message: string, exception: Error);
   public fatal(message: string, payload: IPayload);
   public fatal(message: string, exception: Error, payload: IPayload);
-  public fatal(message: string, e?: Error | IPayload, pl?: IPayload) {
-    this.log('Fatal', message, e, pl);
+  public fatal(message: string, context: string);
+  public fatal(message: string, e?: Error | IPayload | string, pl?: IPayload, context?: string) {
+    this.log('Fatal', message, e, pl, context);
   }
 
-  private log(level: string, message: string, e: Error | IPayload, pl: IPayload) {
+  private log(
+    level: string,
+    message: string,
+    e: Error | IPayload | string,
+    pl: IPayload | string,
+    context: string
+  ) {
     const timestamp = new Date().toISOString();
 
     let exception: Error;
     let payload: IPayload;
+    let messageContext: string;
+
+    // check for each of the possible types
     if (e) {
       if (e instanceof Error) {
-        // 1st parameter is an error, 2nd is a payload or nothing
+        // first optional parameter is an error, second is a payload or context
         exception = e;
-        payload = pl; // may or may not be set
-      } else {
-        // the first parameter is a payload, we don't have an error
+
+        if (typeof pl === 'string') {
+          // second optional parameter is context, there is no payload
+          messageContext = pl;
+        } else {
+          // second parameter is a payload, if third parameter provided, use it as context or else use the default context
+          payload = pl;
+          messageContext = context || this.defaultContext;
+        }
+      } else if (typeof e === 'object' && isInstanceOfIPayload(e)) {
+        // first optional parameter is a payload, we don't have an error
         payload = e;
+
+        if (typeof pl === 'string') {
+          // second optional parameter is a context
+          messageContext = pl;
+        }
+      } else if (typeof e === 'string') {
+        // first optional parameter is context
+        messageContext = e;
+      } else {
+        // no optional parameters, set context to default context
+        messageContext = this.defaultContext;
       }
     }
 
@@ -177,7 +235,7 @@ export class Logger implements ILogger {
       app_name: this.appName,
       env: this.environment,
       clientId: 'n/a',
-      context: this.context,
+      context: messageContext,
       is_exception: !!exception,
     };
 
@@ -192,7 +250,7 @@ export class Logger implements ILogger {
       logDto[plTypeAttribute] = payloadType;
       // payload data structure named after context_payload_type to
       // minimize the risk of conflicts
-      const payloadAttribute = `${this.context} ${decamelize(payloadType)}`;
+      const payloadAttribute = `${messageContext} ${decamelize(payloadType)}`;
       logDto[payloadAttribute] = data;
     }
 
