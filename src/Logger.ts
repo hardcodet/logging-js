@@ -1,4 +1,3 @@
-import { decamelize, decamelizeKeys } from 'humps';
 import { ILogSink } from './Sinks';
 
 /**
@@ -41,9 +40,9 @@ export class LoggingStore {
  * Encapsulates exception information.
  */
 export interface IExceptionInfo {
-  error_message: string;
-  exception_type: string;
-  stack_trace: string;
+  errorMessage: string;
+  exceptionType: string;
+  stackTrace: string;
 }
 
 /**
@@ -52,22 +51,22 @@ export interface IExceptionInfo {
 export interface ILogMessage {
   timestamp: string;
   message: string;
-  app_name: string;
+  appName: string;
   env: string;
   clientId: string;
   context: string;
   level: string;
-  payload_type: string;
-  payload: any;
-  is_exception: boolean;
-  exception: IExceptionInfo;
+  payloadType?: string;
+  payload?: any;
+  isException: boolean;
+  exception?: IExceptionInfo;
 }
 
 /**
  * Named structured data payload that can be logged
  * along with the standard fields.
  */
-interface IPayload {
+export interface IPayload {
   name: string;
   data: any;
 }
@@ -170,41 +169,45 @@ export class Logger implements ILogger {
     }
 
     // create JSON to be submitted
-    const logDto: any = {
+    const logDto: ILogMessage = {
       timestamp,
       level,
       message,
-      app_name: this.appName,
+      appName: this.appName,
       env: this.environment,
       clientId: 'n/a',
       context: this.context,
-      is_exception: !!exception,
+      isException: !!exception,
     };
 
     // inject payload information, if any
     if (payload) {
       const payloadType = payload.name;
-      // convert to snake-case
-      const data = decamelizeKeys(payload.data);
+      const payloadData = payload.data;
+
+      //TODO HACK?
+      const data2 = {...payload};
+      delete data2.name;
 
       // inject payload information
-      const plTypeAttribute = 'payload_type';
+      const plTypeAttribute = 'payloadType';
       logDto[plTypeAttribute] = payloadType;
+
       // payload data structure named after context_payload_type to
-      // minimize the risk of conflicts
-      const payloadAttribute = `${this.context} ${decamelize(payloadType)}`;
-      logDto[payloadAttribute] = data;
+      // minimize the risk of indexing conflicts
+      const payloadAttribute = `${this.context} ${payloadType}`;
+      logDto[payloadAttribute] = payloadData;
     }
 
-    // optionally also inject exception data, if we have one
+    // optionally also inject exception data, if we have any
     if (exception) {
-      const exceptionInfo = {
-        error_message: exception.message,
-        exception_type: exception.name,
-        stack_trace: exception.stack,
+      const exceptionInfo: IExceptionInfo = {
+        errorMessage: exception.message,
+        exceptionType: exception.name,
+        stackTrace: exception.stack,
       };
 
-      const excAttribute = 'error';
+      const excAttribute = 'exception';
       logDto[excAttribute] = exceptionInfo;
     }
 
