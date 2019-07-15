@@ -64,11 +64,14 @@ export interface ILogMessage {
 
 /**
  * Named structured data payload that can be logged
- * along with the standard fields.
+ * along with the standard fields. The payload's name
+ * will be used as an element key for structured
+ * logging in order to avoid indexing conflicts with
+ * different payloads that use the same keys.
  */
 export interface IPayload {
   name: string;
-  data: any;
+  [data: string]: any
 }
 
 /**
@@ -182,12 +185,11 @@ export class Logger implements ILogger {
 
     // inject payload information, if any
     if (payload) {
-      const payloadType = payload.name;
-      const payloadData = payload.data;
+      const payloadType = payload.name || "undefined";
 
-      //TODO HACK?
-      const data2 = {...payload};
-      delete data2.name;
+      // extract payload data (everything but the name)
+      const payloadData = {...payload};
+      delete payloadData.name;
 
       // inject payload information
       const plTypeAttribute = 'payloadType';
