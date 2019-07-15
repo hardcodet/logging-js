@@ -187,7 +187,7 @@ export class Logger implements ILogger {
 
         // inject payload information, if any
         if (payload) {
-            const payloadType = payload.name || "undefined";
+            const payloadType = payload.name || 'undefined';
 
             // extract payload data (everything but the name)
             const payloadData = {...payload};
@@ -197,9 +197,14 @@ export class Logger implements ILogger {
             const plTypeAttribute = 'payloadType';
             logDto[plTypeAttribute] = payloadType;
 
-            // payload data structure named after context_payload_type to
+            // payload data structure named after payload type to
             // minimize the risk of indexing conflicts
-            const payloadAttribute = `${this.context} ${payloadType}`;
+            // note: this used to be [context] + [payloadType] to ensure it's unique.
+            // but it sucks with regards to readability, with low risk, so go for type only now.
+            // if the name is completely omitted (which would violate Typescript interface),
+            // fall back to completely generic payload. As far as Typescript goes, this is
+            // not an option due to high risk of index collision.
+            const payloadAttribute = payload.name || "payload";
             logDto[payloadAttribute] = payloadData;
         }
 
