@@ -26,7 +26,8 @@ export declare class LoggingStore {
  * Encapsulates exception information.
  */
 export interface IExceptionInfo {
-    errorMessage: string;
+    errorMessage?: string;
+    errorData?: any;
     exceptionType: string;
     stackTrace: string;
 }

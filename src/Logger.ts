@@ -40,7 +40,8 @@ export class LoggingStore {
  * Encapsulates exception information.
  */
 export interface IExceptionInfo {
-    errorMessage: string;
+    errorMessage?: string;
+    errorData?: any;
     exceptionType: string;
     stackTrace: string;
 }
@@ -211,10 +212,17 @@ export class Logger implements ILogger {
         // optionally also inject exception data, if we have any
         if (exception) {
             const exceptionInfo: IExceptionInfo = {
-                errorMessage: exception.message,
                 exceptionType: exception.name,
                 stackTrace: exception.stack,
             };
+
+            // if the exception.message is not a string but an object (e.g. in NestJS), adjust the data structure. Yay dynamic languages.
+            // @ts-ignore
+            if(typeof exception.message === 'string' || exception.message instanceof String) {
+                exceptionInfo.errorMessage = exception.message;
+            } else {
+                exceptionInfo.errorData = exception.message;
+            }
 
             const excAttribute = 'exception';
             logDto[excAttribute] = exceptionInfo;
