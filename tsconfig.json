@@ -3,7 +3,7 @@
     "allowJs": false,
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
-    "module": "es2015",
+    "module": "commonjs",
     "moduleResolution": "node",
     "noImplicitAny": false,
     "noImplicitReturns": true,
@@ -13,7 +13,7 @@
     "target": "es6",
     "outDir": "./lib",
     "declaration": true,
-    "lib": [ "es2015", "dom" ]
+    "lib": [ "es7", "dom"]
   },
   "include": ["src"],
   "exclude": ["node_modules", "**/__tests__/*"]
