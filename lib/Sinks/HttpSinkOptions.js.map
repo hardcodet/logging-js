@@ -1,0 +1,1 @@
+{"version":3,"file":"HttpSinkOptions.js","sourceRoot":"","sources":["../../src/Sinks/HttpSinkOptions.ts"],"names":[],"mappings":";;AAAA,6DAAwD;AAExD,MAAa,eAAgB,SAAQ,uCAAkB;IAGnD,YAAmB,WAAmB,EAAE,WAAiB;QACrD,KAAK,EAAE,CAAC;QADO,gBAAW,GAAX,WAAW,CAAQ;QAF/B,cAAS,GAAG,WAAW,CAAC;QAI3B,IAAI,CAAC,WAAW,GAAG,WAAW,CAAC;IACnC,CAAC;CACJ;AAPD,0CAOC"}

@@ -1,2 +1,10 @@
-export {LoggingStore, IExceptionInfo, ILogMessage, ILogger, Logger} from './Logger';
-export {BatchedSinkOptions, HttpSinkOptions, ILogSink, BatchedSink, HttpSink} from './Sinks';
+export {Logger} from './Logger/Logger';
+export {BatchedSinkOptions} from "./Sinks/BatchedSinkOptions";
+export {ILogSink} from "./Sinks/ILogSink";
+export {HttpSinkOptions} from "./Sinks/HttpSinkOptions";
+export {BatchedSink} from "./Sinks/BatchedSink";
+export {HttpSink} from "./Sinks/HttpSink";
+export {LoggingStore} from "./LoggingStore";
+export {IExceptionInfo} from "./Logger/IExceptionInfo";
+export {ILogMessage} from "./Logger/ILogMessage";
+export {ILogger} from "./Logger/ILogger";
