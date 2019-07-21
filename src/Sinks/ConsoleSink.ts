@@ -4,10 +4,10 @@ import {LogLevel} from "../Logger/LogLevel";
 
 export class ConsoleSink implements ILogSink {
 
-    RESET = "\x1b[0m\]";
-    INFO = "\x1b[34m\]";
-    WARN = "\x1b[33m\]";
-    ERROR = "\x1b[31m\]";
+    RESET = "\x1b[0m";
+    INFO = "\x1b[34m";
+    WARN = "\x1b[33m";
+    ERROR = "\x1b[31m";
 
 
     public async flush(): Promise<void> {
