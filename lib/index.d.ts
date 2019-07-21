@@ -3,6 +3,7 @@ export { BatchedSinkOptions } from "./Sinks/BatchedSinkOptions";
 export { ILogSink } from "./Sinks/ILogSink";
 export { HttpSinkOptions } from "./Sinks/HttpSinkOptions";
 export { BatchedSink } from "./Sinks/BatchedSink";
+export { ConsoleSink } from "./Sinks/ConsoleSink";
 export { HttpSink } from "./Sinks/HttpSink";
 export { LoggingStore } from "./LoggingStore";
 export { IExceptionInfo } from "./Logger/IExceptionInfo";

@@ -7,8 +7,14 @@ export class ConsoleSink implements ILogSink {
         return;
     }
 
-    log(msg: ILogMessage) {
-        switch (msg.level) {
+    public log(message: ILogMessage) {
+        let msg: string = `${message.level.toUpperCase()}: ${message.context} --> ${message.message}`;
+        if (message.payload) {
+            msg = `${msg}
+${JSON.stringify(message.payload)}`;
+        }
+
+        switch (message.level) {
             case LogLevel.Debug:
             case LogLevel.Info:
                 console.log(msg);
@@ -18,6 +24,7 @@ export class ConsoleSink implements ILogSink {
                 break;
             case LogLevel.Error:
             case LogLevel.Fatal:
+            default:
                 console.error(msg);
                 break;
         }
