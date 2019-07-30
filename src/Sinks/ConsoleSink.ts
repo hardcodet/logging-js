@@ -16,9 +16,12 @@ export class ConsoleSink implements ILogSink {
 
     public log(message: ILogMessage) {
         let msg: string = `${message.level.toUpperCase()}: ${message.context} --> ${message.message}`;
+        let hasException: boolean;
+        let hasPayload: boolean;
 
         // include stack trace
-        if (message.exception) {
+        hasException = !!message.exception;
+        if (hasException) {
             msg = `${msg}
 ${message.exception.errorMessage}
 ${message.exception.stackTrace}`;
@@ -26,9 +29,15 @@ ${message.exception.stackTrace}`;
 
         // include payload
         const payloadType = message.payloadType;
-        if (payloadType && message[payloadType]) {
+        hasPayload = payloadType && message[payloadType];
+        if (hasPayload) {
             msg = `${msg}
-${JSON.stringify(message[payloadType])}`;
+${payloadType}: ${JSON.stringify(message[payloadType])}`;
+        }
+
+        if(hasException || hasPayload) {
+            //add an additional line break if we had multi-line content
+            msg = msg + "\n";
         }
 
         switch (message.level) {
