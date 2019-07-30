@@ -13,7 +13,6 @@ export interface ILogMessage {
     context: string;
     level: LogLevel;
     payloadType?: string;
-    payload?: any;
     isException: boolean;
     exception?: IExceptionInfo;
 }

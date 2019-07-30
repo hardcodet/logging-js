@@ -96,6 +96,7 @@ export abstract class BatchedSink<TOptions extends BatchedSinkOptions> implement
             await this.emitLogs(msgs);
         } catch (error) {
             // restore messages by simply pushing them back into the current collection
+            // TODO add threshold from which older messages are being discarded in order to prevent memory overload
             this.logToConsole(`Processing pending logs failed with unexpected error: ${error}`);
             this.messages.push(...msgs);
         }

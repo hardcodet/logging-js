@@ -21,13 +21,14 @@ export class ConsoleSink implements ILogSink {
         if (message.exception) {
             msg = `${msg}
 ${message.exception.errorMessage}
-${message.exception.stackTrace}`
+${message.exception.stackTrace}`;
         }
 
         // include payload
-        if (message.payload) {
+        const payloadType = message.payloadType;
+        if (payloadType && message[payloadType]) {
             msg = `${msg}
-${JSON.stringify(message.payload)}`;
+${JSON.stringify(message[payloadType])}`;
         }
 
         switch (message.level) {
