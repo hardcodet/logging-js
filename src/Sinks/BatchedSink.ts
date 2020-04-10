@@ -25,6 +25,11 @@ export abstract class BatchedSink<TOptions extends BatchedSinkOptions> implement
             throw new Error('Logging into a logger that has been closed!');
         }
 
+        if(this.options.extraFields) {
+            // merge in extra fields, if we have any
+            msg = {...msg, ...this.options.extraFields}
+        }
+
         this.messages.push(msg);
         if (this.messages.length >= this.options.bufferSize) {
             this.logToConsole('Buffer is full - sending batch');
