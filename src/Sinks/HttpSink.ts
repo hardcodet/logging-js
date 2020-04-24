@@ -1,6 +1,6 @@
-import {BatchedSink} from "./BatchedSink";
-import {HttpSinkOptions} from "./HttpSinkOptions";
-import {ILogMessage} from "../Logger/ILogMessage";
+import { BatchedSink } from "./BatchedSink";
+import { HttpSinkOptions } from "./HttpSinkOptions";
+import { ILogMessage } from "..";
 
 /**
  * Logs buffered messages to an HTTP endpoint with built-in retry capabilites.
@@ -20,7 +20,9 @@ export class HttpSink extends BatchedSink<HttpSinkOptions> {
         const batch: any = {};
 
         // clones the messages and adds an additional @timestamp field
-        batch.msgs = msgs.map(m => Object.assign({}, m, {'@timestamp': m.timestamp}));
+        batch.msgs = msgs.map((m) =>
+            Object.assign({}, m, { "@timestamp": m.timestamp })
+        );
 
         batch.attemptNumber = 1;
         batch.sleepUntilNextRetry = 3 * 1000;
@@ -33,11 +35,11 @@ export class HttpSink extends BatchedSink<HttpSinkOptions> {
         const body = this.serializeMessages(batch.msgs);
         const options = {
             body,
-            method: 'POST',
+            method: "POST",
             headers: {
-                accept: '*/*',
-                'user-agent': this.options.userAgent,
-                'content-type': 'text/plain',
+                accept: "*/*",
+                "user-agent": this.options.userAgent,
+                "content-type": "text/plain",
             },
         };
 
@@ -54,7 +56,7 @@ export class HttpSink extends BatchedSink<HttpSinkOptions> {
     }
 
     private serializeMessages(msgs) {
-        let body = '';
+        let body = "";
 
         for (const m of msgs) {
             body = `${body}${this.jsonToString(m)}\n`;
@@ -70,7 +72,9 @@ export class HttpSink extends BatchedSink<HttpSinkOptions> {
             this.writeErrorToConsole(new Error(errorMsg));
         } else {
             // schedule retry
-            this.logToConsole(`Log batch #${batch.id} not sent and will retry. Reason: ${errorMessage}`);
+            this.logToConsole(
+                `Log batch #${batch.id} not sent and will retry. Reason: ${errorMessage}`
+            );
             const sleepTimeMs = batch.sleepUntilNextRetry;
             batch.sleepUntilNextRetry = batch.sleepUntilNextRetry * 2;
             batch.attemptNumber++;

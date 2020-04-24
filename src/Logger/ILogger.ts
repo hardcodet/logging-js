@@ -1,4 +1,4 @@
-import {IPayload} from "./IPayload";
+import { IPayload } from "./IPayload";
 
 /**
  * Basic logging API. A logger instance is created through the

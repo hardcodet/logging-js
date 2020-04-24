@@ -1,4 +1,4 @@
-import {ILogMessage} from "../Logger/ILogMessage";
+import { ILogMessage } from "..";
 
 /**
  * Basic interface for logging endpoints.

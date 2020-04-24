@@ -1,11 +1,12 @@
-import {BatchedSinkOptions} from "./BatchedSinkOptions";
-import {ILogSink} from "./ILogSink";
-import {ILogMessage} from "../Logger/ILogMessage";
+import { BatchedSinkOptions } from "./BatchedSinkOptions";
+import { ILogSink } from "./ILogSink";
+import { ILogMessage } from "..";
 
 /**
  * Base class for log sinks that process incoming messages in buffered batches.
  */
-export abstract class BatchedSink<TOptions extends BatchedSinkOptions> implements ILogSink {
+export abstract class BatchedSink<TOptions extends BatchedSinkOptions>
+    implements ILogSink {
     protected options: TOptions;
     private closed: boolean = false;
     private messages = [];
@@ -13,7 +14,7 @@ export abstract class BatchedSink<TOptions extends BatchedSinkOptions> implement
 
     constructor(options: TOptions) {
         if (!options) {
-            throw new Error('Options with valid endpoint are required.');
+            throw new Error("Options with valid endpoint are required.");
         }
 
         this.options = options;
@@ -22,17 +23,17 @@ export abstract class BatchedSink<TOptions extends BatchedSinkOptions> implement
 
     public log(msg: ILogMessage) {
         if (this.closed) {
-            throw new Error('Logging into a logger that has been closed!');
+            throw new Error("Logging into a logger that has been closed!");
         }
 
-        if(this.options.extraFields) {
+        if (this.options.extraFields) {
             // merge in extra fields, if we have any
-            msg = {...msg, ...this.options.extraFields}
+            msg = { ...msg, ...this.options.extraFields };
         }
 
         this.messages.push(msg);
         if (this.messages.length >= this.options.bufferSize) {
-            this.logToConsole('Buffer is full - sending batch');
+            this.logToConsole("Buffer is full - sending batch");
             this.processPendingMessages();
         }
     }
@@ -43,7 +44,7 @@ export abstract class BatchedSink<TOptions extends BatchedSinkOptions> implement
 
         // send pending messages, if any
         if (this.messages.length > 0) {
-            this.logToConsole('Closing, flushing messages.');
+            this.logToConsole("Closing, flushing messages.");
             await this.processPendingMessages();
         }
 
@@ -66,25 +67,30 @@ export abstract class BatchedSink<TOptions extends BatchedSinkOptions> implement
         try {
             return JSON.stringify(msg);
         } catch (ex) {
-            return JSON.stringify(`Unexpected error serializing log data: ${ex.toString()}`);
+            return JSON.stringify(
+                `Unexpected error serializing log data: ${ex.toString()}`
+            );
         }
     }
 
     protected logToConsole(msg) {
         /* tslint:disable-next-line */
-        if (this.options.internalDebugMessages) console.log('js-logger: ' + msg);
+        if (this.options.internalDebugMessages)
+            console.log("js-logger: " + msg);
     }
 
     protected writeErrorToConsole(err) {
         if (err && !this.options.suppressErrors) {
             /* tslint:disable-next-line */
-            console.error('js-logger error: ' + err, err);
+            console.error("js-logger error: " + err, err);
         }
     }
 
     private onSendTimer() {
         if (this.messages.length > 0) {
-            this.logToConsole(`Got ${this.messages.length} messages to send upon timer trigger. Sending now...`);
+            this.logToConsole(
+                `Got ${this.messages.length} messages to send upon timer trigger. Sending now...`
+            );
             this.processPendingMessages();
         }
 
@@ -102,7 +108,9 @@ export abstract class BatchedSink<TOptions extends BatchedSinkOptions> implement
         } catch (error) {
             // restore messages by simply pushing them back into the current collection
             // TODO add threshold from which older messages are being discarded in order to prevent memory overload
-            this.logToConsole(`Processing pending logs failed with unexpected error: ${error}`);
+            this.logToConsole(
+                `Processing pending logs failed with unexpected error: ${error}`
+            );
             this.messages.push(...msgs);
         }
     }

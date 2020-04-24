@@ -1,1 +1,0 @@
-{"version":3,"file":"BatchedSinkOptions.js","sourceRoot":"","sources":["../../src/Sinks/BatchedSinkOptions.ts"],"names":[],"mappings":";;AAAA,MAAa,kBAAkB;IAA/B;QACW,mBAAc,GAAW,CAAC,GAAG,IAAI,CAAC;QAClC,eAAU,GAAW,GAAG,CAAC;QACzB,0BAAqB,GAAY,KAAK,CAAC;QACvC,oBAAe,GAAW,CAAC,CAAC;QAC5B,mBAAc,GAAY,KAAK,CAAC;QAChC,gBAAW,GAAQ,SAAS,CAAC;IACxC,CAAC;CAAA;AAPD,gDAOC"}

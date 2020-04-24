@@ -1,46 +1,36 @@
 {
   "name": "@hardcodet/logging-js",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Opinionated logging for Typescript/Javascript",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "types": "dist/index.d.ts",
   "scripts": {
-    "test": "jest --config jestconfig.json",
-    "ts:compile": "tsc --noEmit -p . --pretty",
-    "build": "tsc",
-    "format": "prettier --single-quote --write \"src/**/*.ts\" \"src/**/*.js\"",
-    "tslint:dev": "tslint -p . -c tslint.dev.json",
-    "tslint:prod": "tslint -p .",
-    "tslint:fix": "tslint --fix -p .",
-    "prepare": "npm run build",
-    "prepublishOnly": "npm test && npm run tslint:prod",
-    "preversion": "npm run tslint:prod",
-    "version": "npm run format && git add -A src"
+    "build": "rimraf dist && tsc -p tsconfig.json",
+    "prepublish:npm": "yarn build",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "lint": "tslint -p tsconfig.json -c tslint.json"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hardcodet/logging-js.git"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Philipp Sumi",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/hardcodet/logging-js/issues"
   },
   "homepage": "https://github.com/hardcodet/logging-js#readme",
   "devDependencies": {
-    "@types/jest": "^23.3.12",
-    "jest": "^23.6.0",
-    "prettier": "^1.15.3",
-    "ts-jest": "^23.10.5",
-    "tslint": "^5.12.1",
-    "tslint-config-airbnb": "^5.11.1",
-    "tslint-config-prettier": "^1.17.0",
-    "typescript": "^3.2.2"
+    "@types/node": "^13.13.2",
+    "prettier": "^2.0.5",
+    "rimraf": "^3.0.2",
+    "tslint": "^6.1.1",
+    "typescript": "^3.8.3"
   },
-  "files": [
-    "lib/**/*"
-  ],
   "dependencies": {
   }
 }

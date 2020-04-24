@@ -8,5 +8,5 @@
 export interface IPayload {
     name: string;
 
-    [data: string]: any
+    [data: string]: any;
 }

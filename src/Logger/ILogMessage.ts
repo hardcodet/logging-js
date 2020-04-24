@@ -1,5 +1,5 @@
-import {IExceptionInfo} from "./IExceptionInfo";
-import {LogLevel} from "./LogLevel";
+import { IExceptionInfo } from "./IExceptionInfo";
+import { LogLevel } from "./LogLevel";
 
 /**
  * Basic log message data structure.

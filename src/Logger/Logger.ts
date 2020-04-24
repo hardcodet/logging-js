@@ -1,9 +1,9 @@
-import {ILogSink} from "../Sinks/ILogSink";
-import {IExceptionInfo} from "./IExceptionInfo";
-import {ILogMessage} from "./ILogMessage";
-import {LogLevel} from "./LogLevel";
-import {IPayload} from "./IPayload";
-import {ILogger} from "./ILogger";
+import { ILogSink } from "..";
+import { IExceptionInfo } from "./IExceptionInfo";
+import { ILogMessage } from "./ILogMessage";
+import { LogLevel } from "./LogLevel";
+import { IPayload } from "./IPayload";
+import { ILogger } from "./ILogger";
 
 export class Logger implements ILogger {
     constructor(
@@ -11,8 +11,7 @@ export class Logger implements ILogger {
         private appName: string,
         private environment: string,
         private context: string
-    ) {
-    }
+    ) {}
 
     /* tslint:disable unified-signatures */
     public debug(message: string);
@@ -55,7 +54,12 @@ export class Logger implements ILogger {
         this.log(LogLevel.Fatal, message, e, pl);
     }
 
-    private log(level: LogLevel, message: string, e: Error | IPayload, pl: IPayload) {
+    private log(
+        level: LogLevel,
+        message: string,
+        e: Error | IPayload,
+        pl: IPayload
+    ) {
         const timestamp = new Date().toISOString();
 
         let exception: Error;
@@ -78,21 +82,21 @@ export class Logger implements ILogger {
             message,
             appName: this.appName,
             env: this.environment,
-            clientId: 'n/a',
+            clientId: "n/a",
             context: this.context,
             isException: !!exception,
         };
 
         // inject payload information, if any
         if (payload) {
-            const payloadType = payload.name || 'undefined';
+            const payloadType = payload.name || "undefined";
 
             // extract payload data (everything but the name)
-            const payloadData = {...payload};
+            const payloadData = { ...payload };
             delete payloadData.name;
 
             // inject payload information
-            const plTypeAttribute = 'payloadType';
+            const plTypeAttribute = "payloadType";
             logDto[plTypeAttribute] = payloadType;
 
             // payload data structure named after payload type to
@@ -115,13 +119,16 @@ export class Logger implements ILogger {
 
             // if the exception.message is not a string but an object (e.g. in NestJS), adjust the data structure. Yay dynamic languages.
             // @ts-ignore
-            if(typeof exception.message === 'string' || exception.message instanceof String) {
+            if (
+                typeof exception.message === "string" ||
+                exception.message instanceof String
+            ) {
                 exceptionInfo.errorMessage = exception.message;
             } else {
                 exceptionInfo.errorData = exception.message;
             }
 
-            const excAttribute = 'exception';
+            const excAttribute = "exception";
             logDto[excAttribute] = exceptionInfo;
         }
 
