@@ -1,17 +1,19 @@
-import { ILogSink } from "./Sinks/ILogSink";
-import { Logger } from "./Logger/Logger";
-import { ILogger } from "./Logger/ILogger";
+import {ILogSink} from "./Sinks/ILogSink";
+import {Logger} from "./Logger/Logger";
+import {ILogger} from "./Logger/ILogger";
+import {LogLevel} from "./Logger/LogLevel";
 
 /**
  * Main controller for logging setup and logger creation.
  */
 export class LoggingStore {
-    private sinks: ILogSink[];
+    private readonly sinks: ILogSink[];
 
     constructor(
         private appName: string,
         private environment: string,
-        sinks?: ILogSink[]
+        sinks?: ILogSink[],
+        private minLevel: LogLevel = LogLevel.Debug
     ) {
         this.sinks = sinks || [];
     }
@@ -32,7 +34,8 @@ export class LoggingStore {
             this.sinks,
             this.appName,
             this.environment.toUpperCase(),
-            context
+            context,
+            this.minLevel,
         );
     }
 

@@ -1,17 +1,20 @@
-import { ILogSink } from "..";
-import { IExceptionInfo } from "./IExceptionInfo";
-import { ILogMessage } from "./ILogMessage";
-import { LogLevel } from "./LogLevel";
-import { IPayload } from "./IPayload";
-import { ILogger } from "./ILogger";
+import {IExceptionInfo} from "./IExceptionInfo";
+import {ILogMessage} from "./ILogMessage";
+import {LogLevel} from "./LogLevel";
+import {IPayload} from "./IPayload";
+import {ILogger} from "./ILogger";
+import {ILogSink} from "..";
 
 export class Logger implements ILogger {
+
     constructor(
         private sinks: ILogSink[],
         private appName: string,
         private environment: string,
-        private context: string
-    ) {}
+        private context: string,
+        private minLevel: LogLevel = LogLevel.Debug
+    ) {
+    }
 
     /* tslint:disable unified-signatures */
     public debug(message: string);
@@ -54,12 +57,29 @@ export class Logger implements ILogger {
         this.log(LogLevel.Fatal, message, e, pl);
     }
 
+    private evaluateMinLevel(level: LogLevel): boolean {
+        switch (this.minLevel) {
+            case LogLevel.Fatal:
+                return level == LogLevel.Fatal;
+            case LogLevel.Debug:
+                return true;
+            case LogLevel.Info:
+                return level !== LogLevel.Debug;
+            case LogLevel.Warning:
+                return level !== LogLevel.Debug && level !== LogLevel.Info;
+            case LogLevel.Error:
+                return level == LogLevel.Error || level == LogLevel.Fatal;
+        }
+    }
+
     private log(
         level: LogLevel,
         message: string,
         e: Error | IPayload,
         pl: IPayload
     ) {
+        if (!this.evaluateMinLevel(level)) return;
+
         const timestamp = new Date().toISOString();
 
         let exception: Error;
@@ -92,7 +112,7 @@ export class Logger implements ILogger {
             const payloadType = payload.name || "undefined";
 
             // extract payload data (everything but the name)
-            const payloadData = { ...payload };
+            const payloadData = {...payload};
             delete payloadData.name;
 
             // inject payload information
@@ -105,7 +125,7 @@ export class Logger implements ILogger {
             // but it sucks with regards to readability, with low risk, so go for type only now.
             // if the name is completely omitted (which would violate Typescript interface),
             // fall back to completely generic payload. As far as Typescript goes, this is
-            // not an option due to high risk of index collision.
+            // not an option due to high risk of index collision in Elasticsearch.
             const payloadAttribute = payload.name || "payload";
             logDto[payloadAttribute] = payloadData;
         }
@@ -119,10 +139,7 @@ export class Logger implements ILogger {
 
             // if the exception.message is not a string but an object (e.g. in NestJS), adjust the data structure. Yay dynamic languages.
             // @ts-ignore
-            if (
-                typeof exception.message === "string" ||
-                exception.message instanceof String
-            ) {
+            if (typeof exception.message === "string" || exception.message instanceof String) {
                 exceptionInfo.errorMessage = exception.message;
             } else {
                 exceptionInfo.errorData = exception.message;
@@ -131,12 +148,6 @@ export class Logger implements ILogger {
             const excAttribute = "exception";
             logDto[excAttribute] = exceptionInfo;
         }
-
-        // TBD additional fields as per configuration? (extraFields can be any data structure)
-        // -> may also be configured on sink-level
-        // if(this.options.extraFields) {
-        //     logDto = Object.assign(logDto, this.options.extraFields);
-        // }
 
         // log into sinks
         for (const s of this.sinks) {

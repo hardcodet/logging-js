@@ -1,11 +1,11 @@
-import { BatchedSinkOptions } from "./BatchedSinkOptions";
-import { ILogSink } from "./ILogSink";
-import { ILogMessage } from "..";
+import {BatchedSinkOptions} from "./BatchedSinkOptions";
+import {ILogSink} from "./ILogSink";
+import {ILogMessage} from "..";
 
 /**
  * Base class for log sinks that process incoming messages in buffered batches.
  */
-export abstract class BatchedSink<TOptions extends BatchedSinkOptions>
+export abstract class BatchedSink<TOptions extends BatchedSinkOptions = BatchedSinkOptions>
     implements ILogSink {
     protected options: TOptions;
     private closed: boolean = false;
@@ -27,14 +27,14 @@ export abstract class BatchedSink<TOptions extends BatchedSinkOptions>
         }
 
         if (this.options.extraFields) {
-            // merge in extra fields, if we have any
-            msg = { ...msg, ...this.options.extraFields };
+            // merge in extra fields, if we have any (overrides any existing fields with the same name!)
+            msg = {...msg, ...this.options.extraFields()};
         }
 
         this.messages.push(msg);
         if (this.messages.length >= this.options.bufferSize) {
             this.logToConsole("Buffer is full - sending batch");
-            this.processPendingMessages();
+            this.processPendingMessages(); // not awaited
         }
     }
 
@@ -108,9 +108,7 @@ export abstract class BatchedSink<TOptions extends BatchedSinkOptions>
         } catch (error) {
             // restore messages by simply pushing them back into the current collection
             // TODO add threshold from which older messages are being discarded in order to prevent memory overload
-            this.logToConsole(
-                `Processing pending logs failed with unexpected error: ${error}`
-            );
+            this.logToConsole(`Processing pending logs failed with unexpected error: ${error}`);
             this.messages.push(...msgs);
         }
     }

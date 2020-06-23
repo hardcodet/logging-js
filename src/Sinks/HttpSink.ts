@@ -2,6 +2,13 @@ import { BatchedSink } from "./BatchedSink";
 import { HttpSinkOptions } from "./HttpSinkOptions";
 import { ILogMessage } from "..";
 
+interface LogBatch {
+    id: number;
+    attemptNumber: number;
+    sleepUntilNextRetry: number;
+    messages: any[];
+}
+
 /**
  * Logs buffered messages to an HTTP endpoint with built-in retry capabilites.
  */
@@ -16,23 +23,18 @@ export class HttpSink extends BatchedSink<HttpSinkOptions> {
         await this.sendLogs(batch);
     }
 
-    private createBatch(msgs: ILogMessage[]) {
-        const batch: any = {};
+    private createBatch(messages: ILogMessage[]): LogBatch {
 
-        // clones the messages and adds an additional @timestamp field
-        batch.msgs = msgs.map((m) =>
-            Object.assign({}, m, { "@timestamp": m.timestamp })
-        );
-
-        batch.attemptNumber = 1;
-        batch.sleepUntilNextRetry = 3 * 1000;
-        batch.id = this.batchId++;
-
-        return batch;
+        return {
+            id: this.batchId++,
+            attemptNumber: 1,
+            sleepUntilNextRetry: 3 * 1000,
+            messages: messages.map((m) => Object.assign({}, m, { "@timestamp": m.timestamp }))
+        };
     }
 
-    private async sendLogs(batch): Promise<void> {
-        const body = this.serializeMessages(batch.msgs);
+    private async sendLogs(batch: LogBatch): Promise<void> {
+        const body = this.serializeMessages(batch.messages);
         const options = {
             body,
             method: "POST",
@@ -40,6 +42,7 @@ export class HttpSink extends BatchedSink<HttpSinkOptions> {
                 accept: "*/*",
                 "user-agent": this.options.userAgent,
                 "content-type": "text/plain",
+                ...this.options.headers,
             },
         };
 
@@ -55,7 +58,7 @@ export class HttpSink extends BatchedSink<HttpSinkOptions> {
         }
     }
 
-    private serializeMessages(msgs) {
+    private serializeMessages(msgs: any[]) {
         let body = "";
 
         for (const m of msgs) {

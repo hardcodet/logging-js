@@ -4,5 +4,9 @@ export class BatchedSinkOptions {
     public internalDebugMessages: boolean = false;
     public numberOfRetries: number = 3;
     public suppressErrors: boolean = false;
-    public extraFields: any = undefined;
+
+    /**
+     * Dynamically populates extra-fields for every log message.
+     */
+    public extraFields: () => any = undefined;
 }
