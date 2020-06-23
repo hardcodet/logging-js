@@ -102,7 +102,6 @@ export class Logger implements ILogger {
             message,
             appName: this.appName,
             env: this.environment,
-            clientId: "n/a",
             context: this.context,
             isException: !!exception,
         };

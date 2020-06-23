@@ -9,7 +9,6 @@ export interface ILogMessage {
     message: string;
     appName: string;
     env: string;
-    clientId: string;
     context: string;
     level: LogLevel;
     payloadType?: string;
